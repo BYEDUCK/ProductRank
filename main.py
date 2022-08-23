@@ -21,18 +21,22 @@ class RankedProductEncoder(json.JSONEncoder):
 
 
 def normalize(v, min=0, max=100):
-    return (v - min) / (max - min)
+    full_range = max - min
+    return 0.5 if full_range == 0 else (v - min) / full_range
 
 
 def rank(product, config, max_price) -> RankedProduct:
     price_factor = normalize(max_price - product['price'], max=max_price)
     review_score = product['reviewScore']
-    rating_factor = normalize(
-        review_score['score'], max=review_score['maxScore'])
+    rating_factor = normalize(review_score['score'], max=review_score['maxScore'])
+    trusted_brands = config['trustedBrands'] if 'trustedBrands' in config else []
+    brand_factor = 1 if product['brandName'] in trusted_brands else 0
     price_importance = normalize(config['priceImportance'])
     rating_importance = normalize(config['ratingImportance'])
-    rank = (price_factor * price_importance + rating_factor *
-            rating_importance) / (price_importance + rating_importance)
+    brand_importance = normalize(config['brandImportance'])
+    rank = (price_factor * price_importance +
+            rating_factor * rating_importance +
+            brand_factor * brand_importance) / (price_importance + rating_importance + brand_importance)
     return RankedProduct(product['name'], rank)
 
 

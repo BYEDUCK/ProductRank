@@ -1,0 +1,31 @@
+{
+    "products": [
+        {
+            "name": "product 1",
+            "brandName": "brand 1",
+            "price": 122.33,
+            "reviewScore": {
+                "score": 4.5,
+                "maxScore": 5
+            }
+        },
+        {
+            "name": "product 2",
+            "brandName": "brand 2",
+            "price": 55.33,
+            "reviewScore": {
+                "score": 4.1,
+                "maxScore": 5
+            }
+        }
+    ],
+    "config": {
+        "priceImportance": 50,
+        "ratingImportance": 50,
+        "brandImportance": 50,
+        "aiImportance": 10,
+        "trustedBrands": [
+            "brand 2"
+        ]
+    }
+}
