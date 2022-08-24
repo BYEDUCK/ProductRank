@@ -12,6 +12,7 @@ client.setup_logging()
 @dataclass
 class RankedProduct:
     name: str
+    url: str
     rank: float
 
 
@@ -37,7 +38,7 @@ def rank(product, config, max_price) -> RankedProduct:
     rank = (price_factor * price_importance +
             rating_factor * rating_importance +
             brand_factor * brand_importance) / (price_importance + rating_importance + brand_importance)
-    return RankedProduct(product['name'], rank)
+    return RankedProduct(product['name'], product['url'] if 'url' in product else None, rank)
 
 
 def main(request):
