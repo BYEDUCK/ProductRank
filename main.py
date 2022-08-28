@@ -38,7 +38,7 @@ def rank(product, config, max_price) -> RankedProduct:
     rank = (price_factor * price_importance +
             rating_factor * rating_importance +
             brand_factor * brand_importance) / (price_importance + rating_importance + brand_importance)
-    return RankedProduct(product['name'], product['url'] if 'url' in product else None, rank)
+    return RankedProduct(product['name'], product['url'] if 'url' in product else None, round(rank, 2))
 
 
 def main(request):
